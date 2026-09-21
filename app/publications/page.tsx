@@ -74,3 +74,33 @@ export default function PublicationsPage() {
 
       {loading && <p className="empty-state">Loading publications…</p>}
       {error && <p className="status-message error">{error}</p>}
+
+      {!loading && !error && filtered.length === 0 && (
+        <p className="empty-state">
+          No papers uploaded yet. Use the Upload page to add the first one.
+        </p>
+      )}
+
+      {filtered.map((paper) => {
+        const doiUrl = paper.doi ? doiPrefix + paper.doi : "";
+        return (
+          <div className="paper-card" key={paper.id}>
+            <div>
+              <h3 className="title">{paper.title}</h3>
+              <div className="meta">
+                {paper.year} · {paper.fileType === "docx" ? "Word document" : "PDF"}
+                {paper.journal ? " · " + paper.journal : ""}
+                {paper.doi ? (
+                  <span> · <a href={doiUrl} target="_blank" rel="noreferrer">DOI: {paper.doi}</a></span>
+                ) : null}
+              </div>
+            </div>
+            <a className="btn" href={paper.url} target="_blank" rel="noreferrer">
+              View / Download
+            </a>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
