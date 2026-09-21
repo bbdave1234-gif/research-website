@@ -41,6 +41,8 @@ export default function PublicationsPage() {
     return papers.filter((p) => String(p.year) === yearFilter);
   }, [papers, yearFilter]);
 
+  const doiPrefix = "https://doi.org/";
+
   return (
     <div>
       <h1>Publications</h1>
@@ -72,43 +74,3 @@ export default function PublicationsPage() {
 
       {loading && <p className="empty-state">Loading publications…</p>}
       {error && <p className="status-message error">{error}</p>}
-
-      {!loading && !error && filtered.length === 0 && (
-        <p className="empty-state">
-          No papers uploaded yet. Use the Upload page to add the first one.
-        </p>
-      )}
-
-      {filtered.map((paper) => (
-        <div className="paper-card" key={paper.id}>
-          <div>
-            <h3 className="title">{paper.title}</h3>
-            <div className="meta">
-              {paper.year} · {paper.fileType === "docx" ? "Word document" : "PDF"}
-              {paper.journal && <> · {paper.journal}</>}
-              {paper.doi && (
-                <>
-                  {" "}
-                  ·{" "}
-                  
-                    href={`https://doi.org/${paper.doi}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    DOI: {paper.doi}
-                  </a>
-                </>
-              )}
-            </div>
-          </div>
-          <a className="btn" href={paper.url} target="_blank" rel="noreferrer">
-            View / Download
-          </a>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-  
-     
